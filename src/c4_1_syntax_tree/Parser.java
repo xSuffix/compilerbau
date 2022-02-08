@@ -1,8 +1,8 @@
 package c4_1_syntax_tree;
 
 public class Parser {
-    int index;
-    String input;
+    private int index;
+    private String input;
 
     public Parser() {
     }
@@ -15,7 +15,7 @@ public class Parser {
         this.input = input;
     }
 
-    void throwErrorMessage(String message) {
+    private void throwErrorMessage(String message) {
         System.out.println("Error!");
 
         System.out.print(message);
@@ -32,11 +32,11 @@ public class Parser {
         throw new RuntimeException("SyntaxError!");
     }
 
-    boolean endOfInput() {
+    private boolean endOfInput() {
         return index >= input.length();
     }
 
-    boolean nextIs(char peek) {
+    private boolean nextIs(char peek) {
         if (endOfInput()) {
             return false;
         }
@@ -44,7 +44,7 @@ public class Parser {
         return input.charAt(index) == peek;
     }
 
-    boolean nextIsAlphaNumeric() {
+    private boolean nextIsAlphaNumeric() {
         for (int i = 0; i < 26; i++) {
             if (nextIs((char)('A' + i))) {
                 return true;
@@ -63,7 +63,7 @@ public class Parser {
         return false;
     }
 
-    char next() {
+    private char next() {
         if (endOfInput()) {
             throwErrorMessage("Unexpected end of input");
         }
@@ -71,14 +71,14 @@ public class Parser {
         return input.charAt(index++);
     }
 
-    void match(char expect) {
+    private void match(char expect) {
         if (!nextIs(expect)) {
             throwErrorMessage("Expected '" + expect + "'");
         }
         next();
     }
 
-    void matchEndOfInput() {
+    private void matchEndOfInput() {
         if (!endOfInput()) {
             throwErrorMessage("Expected end of input");
         }
