@@ -88,6 +88,7 @@ public class RegexParser implements Parser {
     // Parse Methods:
     //
 
+    // start -> regex '#'
     public SyntaxNode start() {
         var result = regex();
         matchEndOfInput();
@@ -95,6 +96,7 @@ public class RegexParser implements Parser {
         return result;
     }
 
+    // regex -> regex_left regex_right
     SyntaxNode regex() {
         var left = regexLeft();
         var right = regexRight();
@@ -119,6 +121,8 @@ public class RegexParser implements Parser {
         return left;
     }
 
+    // regex_left -> element_and_operator regex_left
+    // regex_left -> ''
     SyntaxNode regexLeft() {
         if (nextIs('(') || nextIsAlphaNumeric()) {
             var item = elementAndOperator();
@@ -132,6 +136,7 @@ public class RegexParser implements Parser {
         }
     }
 
+    // element_and_operator -> element operator
     SyntaxNode elementAndOperator() {
         var el = element();
         var op = operator();
@@ -143,6 +148,8 @@ public class RegexParser implements Parser {
         new UnaryOpNode(""+op, el);
     }
 
+    // regex_right -> ''
+    // regex_right -> '|' regex
     SyntaxNode regexRight() {
         if (nextIs('|')) {
             next();
@@ -152,6 +159,10 @@ public class RegexParser implements Parser {
         return null;
     }
 
+    // operator -> ''
+    // operator -> '*'
+    // operator -> '+'
+    // operator -> '?'
     char operator() {
         if (nextIs('*') || nextIs('+') || nextIs('?')) {
             return next();
@@ -160,6 +171,8 @@ public class RegexParser implements Parser {
         return 0;
     }
 
+    // element -> alpha_numeric
+    // element -> '(' regex ')'
     SyntaxNode element() {
         if (nextIs('(')) {
             match('(');
@@ -172,6 +185,11 @@ public class RegexParser implements Parser {
         return new OperandNode(alphaNumeric());
     }
 
+
+    // alpha_numeric -> 'a'
+    // alpha_numeric -> 'b'
+    // alpha_numeric -> 'c'
+    // ...
     char alphaNumeric() {
         if (nextIsAlphaNumeric()) {
             return next();
