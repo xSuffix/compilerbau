@@ -4,5 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DFA<Char> {
-    private Map<DFAState, Map<Char, DFAState>> stateTransitionTable = new HashMap<>();
+    // Klasse wird nicht benötigt, nur:
+    private final Map<DFAState, Map<Char, DFAState>> stateTransitionTable = new HashMap<>();
 }

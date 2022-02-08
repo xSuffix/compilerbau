@@ -4,5 +4,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class FollowposTable {
-    private SortedMap<Integer, FollowposTableEntry> followposTableEntries = new TreeMap<>();
+    // Klasse wird nicht benötigt, nur:
+    private final SortedMap<Integer, FollowposTableEntry> followposTableEntries = new TreeMap<>();
 }
