@@ -99,15 +99,24 @@ public class RegexParser implements Parser {
         var left = regexLeft();
         var right = regexRight();
 
-        if (left != null && right == null) {
-            return left;
-        }
-
-        if (left == null && right != null) {
+        if (left == null && right == null) {
+            // case ""
             return new OperandNode(""); // empty word
         }
 
-        return new BinOpNode("°", left, right);
+        if (left != null && right != null) {
+            // case "a|b"
+            return new BinOpNode("|", left, right);
+        }
+
+        if (right != null) {
+            // case "|b"
+            return new BinOpNode("|", new OperandNode(""), right);
+        }
+
+        // case "a" or
+        // case "a|"
+        return left;
     }
 
     SyntaxNode regexLeft() {
