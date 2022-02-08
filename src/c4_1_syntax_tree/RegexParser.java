@@ -41,7 +41,7 @@ public class RegexParser implements Parser {
             return false;
         }
 
-        return input[index] == peek;
+        return input.charAt(index) == peek;
     }
 
     boolean nextIsAlphaNumeric() {
@@ -68,7 +68,7 @@ public class RegexParser implements Parser {
             throwErrorMessage("Unexpected end of input");
         }
 
-        return input[index++];
+        return input.charAt(index++);
     }
 
     void match(char expect) {
@@ -89,7 +89,8 @@ public class RegexParser implements Parser {
     //
 
     // start -> regex '#'
-    public SyntaxNode start() {
+    @Override
+    public Visitable start() {
         var result = regex();
         matchEndOfInput();
 
@@ -97,7 +98,7 @@ public class RegexParser implements Parser {
     }
 
     // regex -> regex_left regex_right
-    SyntaxNode regex() {
+    private Visitable regex() {
         var left = regexLeft();
         var right = regexRight();
 
@@ -123,7 +124,7 @@ public class RegexParser implements Parser {
 
     // regex_left -> element_and_operator regex_left
     // regex_left -> ''
-    SyntaxNode regexLeft() {
+    private Visitable regexLeft() {
         if (nextIs('(') || nextIsAlphaNumeric()) {
             var item = elementAndOperator();
             var next = regexLeft();
@@ -134,10 +135,12 @@ public class RegexParser implements Parser {
 
             return item;
         }
+
+        return null;
     }
 
     // element_and_operator -> element operator
-    SyntaxNode elementAndOperator() {
+    private Visitable elementAndOperator() {
         var el = element();
         var op = operator();
 
@@ -145,12 +148,12 @@ public class RegexParser implements Parser {
             return el;
         }
 
-        new UnaryOpNode(""+op, el);
+        return new UnaryOpNode(""+op, el);
     }
 
     // regex_right -> ''
     // regex_right -> '|' regex
-    SyntaxNode regexRight() {
+    private Visitable regexRight() {
         if (nextIs('|')) {
             next();
             return regex();
@@ -173,7 +176,7 @@ public class RegexParser implements Parser {
 
     // element -> alpha_numeric
     // element -> '(' regex ')'
-    SyntaxNode element() {
+    private Visitable element() {
         if (nextIs('(')) {
             match('(');
             var re = regex();
@@ -182,7 +185,7 @@ public class RegexParser implements Parser {
             return re;
         }
 
-        return new OperandNode(alphaNumeric());
+        return new OperandNode(""+alphaNumeric());
     }
 
 
@@ -196,5 +199,6 @@ public class RegexParser implements Parser {
         }
 
         throwErrorMessage("Expected alpha-numeric character");
+        return 0;
     }
 }
