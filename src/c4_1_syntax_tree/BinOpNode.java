@@ -12,6 +12,11 @@ public class BinOpNode extends SyntaxNode implements Visitable {
     }
 
     @Override
+    public String toString() {
+        return "(" + left.toString() + ")" + operator + "(" + right.toString() + ")";
+    }
+
+    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
