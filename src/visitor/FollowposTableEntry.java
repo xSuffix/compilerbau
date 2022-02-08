@@ -1,4 +1,4 @@
-package c4_2_followpos_table;
+package visitor;
 
 import java.util.HashSet;
 import java.util.Set;

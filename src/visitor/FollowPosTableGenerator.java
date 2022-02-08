@@ -1,7 +1,6 @@
 package visitor;
 
 import c4_1_syntax_tree.*;
-import c4_2_followpos_table.FollowposTableEntry;
 
 import java.util.Set;
 import java.util.SortedMap;
