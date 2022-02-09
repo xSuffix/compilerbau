@@ -1,5 +1,4 @@
 import c4_1_syntax_tree.*;
-import visitor.*;
 
 public class Main {
     public static void main(String[] args) {
