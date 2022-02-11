@@ -89,6 +89,9 @@ public class Parser {
             return new BinOpNode("°", result, new OperandNode("#"));
         }
 
+        match('#');
+        matchEndOfInput();
+
         return new OperandNode("#");
     }
 
