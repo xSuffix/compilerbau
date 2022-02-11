@@ -96,7 +96,7 @@ public class Parser {
         match('#');
         matchEndOfInput();
 
-        return result;
+        return new BinOpNode("°", result, new OperandNode("#"));
     }
 
     // regex -> regex_left regex_right
