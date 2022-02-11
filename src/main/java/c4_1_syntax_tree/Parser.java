@@ -79,7 +79,7 @@ public class Parser {
     // Parse Methods:
     //
 
-    public Visitable Start() {
+    public Visitable start() {
         System.out.println("Start " + index);
         if (nextIs('#')) {
             match('#');
