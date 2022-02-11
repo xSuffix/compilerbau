@@ -4,6 +4,8 @@ public class Parser {
     private int index;
     private String input;
 
+    public Parser() {
+    }
     public Parser(String input) {
         initialize(input);
     }
