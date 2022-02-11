@@ -15,7 +15,7 @@ public class TestParser {
     }
 
     @Test
-    public void testEmpty() {
+    public void test0() {
         parser.initialize("()#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new OperandNode(""), new OperandNode("#"));
@@ -24,102 +24,93 @@ public class TestParser {
     }
 
     @Test
-    public void testSimple1() {
+    public void test1() {
         parser.initialize("(a)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new OperandNode("a"), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple2() {
+    public void test2() {
         parser.initialize("(ab)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new BinOpNode("°", new OperandNode("a"), new OperandNode("b")), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple3() {
+    public void test3() {
         parser.initialize("(a|b)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new BinOpNode("|", new OperandNode("a"), new OperandNode("b")), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple4() {
+    public void test4() {
         parser.initialize("((a))#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new OperandNode("a"), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple5() {
+    public void test5() {
         parser.initialize("(a*)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new UnaryOpNode("*", new OperandNode("a")), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple6() {
+    public void test6() {
         parser.initialize("((a*)?)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new UnaryOpNode("?", new UnaryOpNode("*", new OperandNode("a"))), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple7() {
+    public void test7() {
         parser.initialize("(a|)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new BinOpNode("|", new OperandNode("a"), new OperandNode("")), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple8() {
+    public void test8() {
         parser.initialize("(|b)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new BinOpNode("|", new OperandNode(""), new OperandNode("b")), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testSimple9() {
+    public void test9() {
         parser.initialize("(|)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new BinOpNode("|", new OperandNode(""), new OperandNode("")), new OperandNode("#"));
 
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     @Test
-    public void testComplex0() {
-        parser.initialize("(ab*c|(a+)?)#");
+    public void test10() {
+        parser.initialize("(ab+|c*)#");
         var actual = parser.start();
-        var expected = new BinOpNode("°", new BinOpNode("|", new BinOpNode("°", new OperandNode("a"), new BinOpNode("°", new UnaryOpNode("*", new OperandNode("b")), new OperandNode("c"))), new UnaryOpNode("?", new UnaryOpNode("+", new OperandNode("a")))), new OperandNode("#"));
+        var expected = new BinOpNode("°", new BinOpNode("|", new BinOpNode("°", new OperandNode("a"), new UnaryOpNode("+", new OperandNode("b"))), new UnaryOpNode("*", new OperandNode("c"))), new OperandNode("#"));
 
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testComplex1() {
-        parser.initialize("(((a|c)*b+)*d*|(d(e|)?)f)#");
-        var actual = parser.start();
-        var expected = new BinOpNode("°", new BinOpNode("|", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("c"))), new UnaryOpNode("+", new OperandNode("b")))), new UnaryOpNode("*", new OperandNode("d"))), new BinOpNode("°", new BinOpNode("°", new OperandNode("d"), new UnaryOpNode("?", new BinOpNode("|", new OperandNode("e"), new OperandNode("")))), new OperandNode("f"))), new OperandNode("#"));
-
-        assertEquals(expected, actual);
+        equals(expected, actual);
     }
 
     private static boolean equals(Visitable v1, Visitable v2)
