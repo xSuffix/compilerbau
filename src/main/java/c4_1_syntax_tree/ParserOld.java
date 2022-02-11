@@ -4,9 +4,9 @@ public class ParserOld {
     private int index;
     private String input;
 
-    public Parser() {
+    public ParserOld() {
     }
-    public Parser(String input) {
+    public ParserOld(String input) {
         initialize(input);
     }
 

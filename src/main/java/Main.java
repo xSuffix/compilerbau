@@ -5,6 +5,6 @@ public class Main {
         var input = "(a|)#";
         var parser = new Parser(input);
         System.out.println(input);
-        System.out.println(parser.Start());
+        System.out.println(parser.start());
     }
 }

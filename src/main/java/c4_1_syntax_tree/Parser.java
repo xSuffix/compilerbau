@@ -79,41 +79,41 @@ public class Parser {
     // Parse Methods:
     //
 
-    public Visitable Start() {
+    public Visitable start() {
         System.out.println("Start " + index);
         if (nextIs('#')) {
             match('#');
             assertEndOfInput();
             return new OperandNode("#");
         }
-        else {
+        else if (nextIs('(')) {
             match('(');
-            Visitable end = new OperandNode("#");
-            Visitable regexp = RegExp(null);
-            Visitable root = new BinOpNode("°", regexp, end);
-
+            Visitable regexp = regExp(null);
             match(')');
             match('#');
             assertEndOfInput();
 
-            return root;
+            return new BinOpNode("°", regexp, new OperandNode("#"));
+        } else {
+            throwErrorMessage("Expected # or (");
+            throw new RuntimeException("Unreachable");
         }
     }
 
-    private Visitable RegExp(Visitable parameter) {
+    private Visitable regExp(Visitable parameter) {
         System.out.println("RegExp " + index);
-        return Re(Term(null));
+        return re(term(null));
     }
 
-    private Visitable Re(Visitable parameter) {
+    private Visitable re(Visitable parameter) {
         System.out.println("Re " + index);
         if (nextIs('|')) {
             match('|');
 
-            Visitable term = Term(null);
+            Visitable term = term(null);
             Visitable result = new BinOpNode("|", parameter, term);
 
-            return Re(result);
+            return re(result);
         }
         else if (nextIs(')')) {
             return parameter;
@@ -124,20 +124,17 @@ public class Parser {
         }
     }
 
-    private Visitable Term(Visitable parameter) {
+    private Visitable term(Visitable parameter) {
         System.out.println("Term " + index);
         if (nextIs('(') || nextIsAlphaNumeric()) {
-            Visitable ret = Factor(null);
-            Visitable term = null;
+            Visitable factorTree = factor(null);
 
             if (parameter != null) {
-                term = new BinOpNode("°", parameter, ret);
-            }
-            else {
-                term = ret;
+                Visitable root = new BinOpNode("°", parameter, factorTree);
+                return term(root);
             }
 
-            return Term(term);
+            return term(factorTree);
         }
         else if (nextIs('|') || nextIs(')')) {
             return parameter;
@@ -148,11 +145,11 @@ public class Parser {
         }
     }
 
-    private Visitable Factor(Visitable parameter) {
+    private Visitable factor(Visitable parameter) {
         System.out.println("Factor " + index);
         if (nextIs('(') || nextIsAlphaNumeric()) {
-            Visitable ret = Elem(null);
-            return HOp(ret);
+            Visitable ret = elem(null);
+            return hOp(ret);
         }
         else {
             throwErrorMessage("Expected '(' or char");
@@ -160,7 +157,7 @@ public class Parser {
         }
     }
 
-    private Visitable HOp(Visitable parameter) {
+    private Visitable hOp(Visitable parameter) {
         System.out.println("HOp " + index);
         if (nextIs('*')) {
             match('*');
@@ -183,16 +180,16 @@ public class Parser {
         }
     }
 
-    private Visitable Elem(Visitable parameter) {
+    private Visitable elem(Visitable parameter) {
         System.out.println("Elem " + index);
         if (nextIs('(')) {
             match('(');
-            Visitable ret = RegExp(null);
+            Visitable ret = regExp(null);
             match(')');
             return ret;
         }
         else if (nextIsAlphaNumeric()) {
-            return Alphanum(null);
+            return alphanum(null);
         }
         else {
             throwErrorMessage("Expected '(' or char");
@@ -200,7 +197,7 @@ public class Parser {
         }
     }
 
-    private Visitable Alphanum(Visitable parameter) {
+    private Visitable alphanum(Visitable parameter) {
         System.out.println("Alphanum " + index);
         if (nextIsAlphaNumeric()) {
             return new OperandNode(""+next());
