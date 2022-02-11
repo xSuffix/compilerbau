@@ -45,22 +45,11 @@ public class Parser {
     }
 
     private boolean nextIsAlphaNumeric() {
-        for (int i = 0; i < 26; i++) {
-            if (nextIs((char)('A' + i))) {
-                return true;
-            }
-            if (nextIs((char)('a' + i))) {
-                return true;
-            }
+        if (endOfInput()) {
+            return false;
         }
 
-        for (int i = 0; i < 10; i++) {
-            if (nextIs((char)('0' + i))) {
-                return true;
-            }
-        }
-
-        return false;
+        return Character.isLetterOrDigit(input.charAt(index));
     }
 
     private char next() {
