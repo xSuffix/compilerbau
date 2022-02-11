@@ -16,7 +16,7 @@ public class TestParser {
 
     @Test
     public void testEmpty() {
-        parser.initialize("()");
+        parser.initialize("()#");
         var actual = parser.start();
         var expected = new OperandNode("");
 
@@ -25,7 +25,7 @@ public class TestParser {
 
     @Test
     public void testSimple1() {
-        parser.initialize("(a)");
+        parser.initialize("(a)#");
         var actual = parser.start();
         var expected = new OperandNode("a");
 
@@ -34,7 +34,7 @@ public class TestParser {
 
     @Test
     public void testSimple2() {
-        parser.initialize("(ab)");
+        parser.initialize("(ab)#");
         var actual = parser.start();
         var expected = new BinOpNode("°", new OperandNode("a"), new OperandNode("b"));
 
@@ -43,7 +43,7 @@ public class TestParser {
 
     @Test
     public void testSimple3() {
-        parser.initialize("(a|b)");
+        parser.initialize("(a|b)#");
         var actual = parser.start();
         var expected = new BinOpNode("|", new OperandNode("a"), new OperandNode("b"));
 
@@ -52,7 +52,7 @@ public class TestParser {
 
     @Test
     public void testSimple4() {
-        parser.initialize("((a))");
+        parser.initialize("((a))#");
         var actual = parser.start();
         var expected = new OperandNode("a");
 
@@ -61,7 +61,7 @@ public class TestParser {
 
     @Test
     public void testSimple5() {
-        parser.initialize("(a*)");
+        parser.initialize("(a*)#");
         var actual = parser.start();
         var expected = new UnaryOpNode("*", new OperandNode("a"));
 
@@ -70,7 +70,7 @@ public class TestParser {
 
     @Test
     public void testSimple6() {
-        parser.initialize("((a*)?)");
+        parser.initialize("((a*)?)#");
         var actual = parser.start();
         var expected = new UnaryOpNode("?", new UnaryOpNode("*", new OperandNode("a")));
 
@@ -79,7 +79,7 @@ public class TestParser {
 
     @Test
     public void testSimple7() {
-        parser.initialize("(a|)");
+        parser.initialize("(a|)#");
         var actual = parser.start();
         var expected = new BinOpNode("|", new OperandNode("a"), new OperandNode(""));
 
@@ -88,7 +88,7 @@ public class TestParser {
 
     @Test
     public void testSimple8() {
-        parser.initialize("(|b)");
+        parser.initialize("(|b)#");
         var actual = parser.start();
         var expected = new BinOpNode("|", new OperandNode(""), new OperandNode("b"));
 
@@ -97,7 +97,7 @@ public class TestParser {
 
     @Test
     public void testSimple9() {
-        parser.initialize("(|)");
+        parser.initialize("(|)#");
         var actual = parser.start();
         var expected = new BinOpNode("|", new OperandNode(""), new OperandNode(""));
 
@@ -106,7 +106,7 @@ public class TestParser {
 
     @Test
     public void testComplex0() {
-        parser.initialize("(ab*c|(a+)?)");
+        parser.initialize("(ab*c|(a+)?)#");
         var actual = parser.start();
         var expected = new BinOpNode("|", new BinOpNode("°", new OperandNode("a"), new BinOpNode("°", new UnaryOpNode("*", new OperandNode("b")), new OperandNode("c"))), new UnaryOpNode("?", new UnaryOpNode("+", new OperandNode("a"))));
 
@@ -115,7 +115,7 @@ public class TestParser {
 
     @Test
     public void testComplex1() {
-        parser.initialize("(((a|c)*b+)*d*|(d(e|)?)f)");
+        parser.initialize("(((a|c)*b+)*d*|(d(e|)?)f)#");
         var actual = parser.start();
         var expected = new BinOpNode("|", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("c"))), new UnaryOpNode("+", new OperandNode("b")))), new UnaryOpNode("*", new OperandNode("d"))), new BinOpNode("°", new BinOpNode("°", new OperandNode("d"), new UnaryOpNode("?", new BinOpNode("|", new OperandNode("e"), new OperandNode("")))), new OperandNode("f")));
 
