@@ -23,7 +23,7 @@ public class FollowposTableEntry {
         }
         FollowposTableEntry other = (FollowposTableEntry) obj;
         return this.position == other.position &&
-                this.symbol.equals(other.symbol) &&
+                this.symbol == other.symbol &&
                 this.followpos.equals(other.followpos);
     }
 
