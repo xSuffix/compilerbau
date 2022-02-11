@@ -21,7 +21,7 @@ public class TestDEACreator {
 
         // hart kodiert über Toolbox-Helperfunction
         SortedMap<Integer, FollowposTableEntry> followposTableEntries = mockFollowposTableEntries();
-        Map<DFAState, Map<String, DFAState>> stateTransitionTable = mockStateTransitionTable();
+        Map<DFAState, Map<Character, DFAState>> stateTransitionTable = mockStateTransitionTable();
 
         DFACreator creator = new DFACreator(positionsOfStartState, followposTableEntries);
         creator.populateStateTransitionTable();

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestGenericLexer {
-    Map<DFAState, Map<String, DFAState>> stateTransitionTable;
+    Map<DFAState, Map<Character, DFAState>> stateTransitionTable;
 
     Lexer testLexer;
 

@@ -10,7 +10,7 @@ public class DFACreator
 {
     private final Set<Integer> positionsForStartState;
     private final SortedMap<Integer, FollowposTableEntry> followposTable;
-    private final Map<DFAState, Map<String, DFAState>> stateTransitionTable;
+    private final Map<DFAState, Map<Character, DFAState>> stateTransitionTable;
 
     /**
      * Man beachte ! Parameter <code>positionsForStartState</code> muss vom Aufrufer
@@ -32,7 +32,7 @@ public class DFACreator
             DFAState currentState = qStates.remove();
             stateTransitionTable.put(currentState,new HashMap<>());
             
-            for (String symbol : inputAlphabet()) {
+            for (char symbol : inputAlphabet()) {
                 DFAState followingState = followingState(++index, currentState, symbol);
                 stateTransitionTable.get(currentState).put(symbol, followingState);
                 if (!stateTransitionTable.containsKey(followingState) && !qStates.contains(followingState)) {
@@ -42,15 +42,15 @@ public class DFACreator
         }
     }
 
-    public Map<DFAState, Map<String, DFAState>> getStateTransitionTable() {
+    public Map<DFAState, Map<Character, DFAState>> getStateTransitionTable() {
         return stateTransitionTable;
     }
 
-    private Set<String> inputAlphabet() {
-        Set<String> alphabet = new HashSet<>();
+    private Set<Character> inputAlphabet() {
+        Set<Character> alphabet = new HashSet<>();
         for (FollowposTableEntry entry : followposTable.values()) {
-            if (!entry.symbol.equals("#")) {
-                alphabet.add(entry.symbol);
+            if (entry.symbol.toCharArray()[0] != '#') {
+                alphabet.add(entry.symbol.toCharArray()[0]);
             }
         }
         return alphabet;
@@ -67,11 +67,11 @@ public class DFACreator
         return false;
     }
 
-    private DFAState followingState(Integer index, DFAState currentState, String symbol) {
+    private DFAState followingState(Integer index, DFAState currentState, char symbol) {
         Set<Integer> followingPositions = new HashSet<>();
         for (Integer position : currentState.positionsSet) {
             for (FollowposTableEntry entry : followposTable.values()) {
-                if (position == entry.position && symbol.equals(entry.symbol)) {
+                if (position == entry.position && symbol == entry.symbol.toCharArray()[0]) {
                     followingPositions = Stream.of(followingPositions, entry.followpos)
                             .flatMap(Set::stream)
                             .collect(Collectors.toSet());

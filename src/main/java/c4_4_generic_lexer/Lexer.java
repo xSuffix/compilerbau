@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class Lexer
 {
-    private Map<DFAState, Map<String, DFAState>> stateTransitionTable;
+    private Map<DFAState, Map<Character, DFAState>> stateTransitionTable;
 
-    public Lexer(Map<DFAState, Map<String, DFAState>> stateTransitionTable)
+    public Lexer(Map<DFAState, Map<Character, DFAState>> stateTransitionTable)
     {
         this.stateTransitionTable = stateTransitionTable;
     }
@@ -20,9 +20,9 @@ public class Lexer
             return false;
         }
 
-        String[] symbols = word.split("");
+        char[] symbols = word.toCharArray();
 
-        for (String letter : symbols) {
+        for (char letter : symbols) {
             if (!stateTransitionTable.get(state).containsKey(letter)) {
                 return false;
             }
