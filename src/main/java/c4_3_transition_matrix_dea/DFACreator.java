@@ -6,8 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DFACreator
-{
+public class DFACreator {
     private final Set<Integer> positionsForStartState;
     private final SortedMap<Integer, FollowposTableEntry> followposTable;
     private final Map<DFAState, Map<Character, DFAState>> stateTransitionTable;
