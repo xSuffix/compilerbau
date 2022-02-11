@@ -88,9 +88,11 @@ public class Parser {
     // Parse Methods:
     //
 
-    // start -> regex '#'
+    // start -> '(' regex ')' '#'
     public Visitable start() {
+        match('(');
         var result = regex();
+        match(')');
         matchEndOfInput();
 
         return result;

@@ -17,7 +17,7 @@ public class BinOpNode extends SyntaxNode implements Visitable {
     }
 
     @Override
-    public  boolean equals(Object obj) {
+    public boolean equals(Object obj) {
         if (getClass() != obj.getClass()) {
             return false;
         }
