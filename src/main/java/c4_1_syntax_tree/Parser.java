@@ -93,6 +93,7 @@ public class Parser {
         match('(');
         var result = regex();
         match(')');
+        match('#');
         matchEndOfInput();
 
         return result;
