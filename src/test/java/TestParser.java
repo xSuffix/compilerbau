@@ -103,4 +103,22 @@ public class TestParser {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testComplex0() {
+        parser.initialize("(ab*c|(a+)?)");
+        var actual = parser.start();
+        var expected = new BinOpNode("|", new BinOpNode("°", new OperandNode("a"), new BinOpNode("°", new UnaryOpNode("*", new OperandNode("b")), new OperandNode("c"))), new UnaryOpNode("?", new UnaryOpNode("+", new OperandNode("a"))));
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testComplex1() {
+        parser.initialize("(((a|c)*b+)*d*|(d(e|)?)f)");
+        var actual = parser.start();
+        var expected = new BinOpNode("|", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("c"))), new UnaryOpNode("+", new OperandNode("b")))), new UnaryOpNode("*", new OperandNode("d"))), new BinOpNode("°", new BinOpNode("°", new OperandNode("d"), new UnaryOpNode("?", new BinOpNode("|", new OperandNode("e"), new OperandNode("")))), new OperandNode("f")));
+
+        assertEquals(expected, actual);
+    }
 }
