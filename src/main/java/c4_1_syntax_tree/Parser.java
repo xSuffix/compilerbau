@@ -79,13 +79,17 @@ public class Parser {
 
     // start -> '(' regex ')' '#'
     public Visitable start() {
-        match('(');
-        var result = regex();
-        match(')');
-        match('#');
-        matchEndOfInput();
+        if (nextIs('(')) {
+            match('(');
+            var result = regex();
+            match(')');
+            match('#');
+            matchEndOfInput();
 
-        return new BinOpNode("°", result, new OperandNode("#"));
+            return new BinOpNode("°", result, new OperandNode("#"));
+        }
+
+        return new OperandNode("#");
     }
 
     // regex -> regex_left regex_right
