@@ -113,6 +113,46 @@ public class TestParser {
         equals(expected, actual);
     }
 
+    @Test
+    public void test11() {
+        parser.initialize("a#");
+        assertThrows(RuntimeException.class, () -> {
+            parser.start();
+        });
+    }
+
+    @Test
+    public void test12() {
+        parser.initialize("(a)");
+        assertThrows(RuntimeException.class, () -> {
+            parser.start();
+        });
+    }
+
+    @Test
+    public void test13() {
+        parser.initialize("(*)#");
+        assertThrows(RuntimeException.class, () -> {
+            parser.start();
+        });
+    }
+
+    @Test
+    public void test14() {
+        parser.initialize("(a)#b");
+        assertThrows(RuntimeException.class, () -> {
+            parser.start();
+        });
+    }
+
+    @Test
+    public void test15() {
+        parser.initialize("");
+        assertThrows(RuntimeException.class, () -> {
+            parser.start();
+        });
+    }
+
     private static boolean equals(Visitable v1, Visitable v2)
     {
         if (v1 == v2)
