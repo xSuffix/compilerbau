@@ -1,3 +1,4 @@
+// Author: Jan Fröhlich
 package visitor;
 
 import c4_1_syntax_tree.*;
@@ -5,83 +6,31 @@ import c4_2_visitor.DepthFirstIterator;
 import c4_2_visitor.SyntaxTreeEvaluator;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FirstVisitorTest {
 
     // From lecture chapter 3, slide 95
+    // Regex: (a|b)*cd*
     @Test
     public void testFirstVisitor_01() {
         // Input Syntax tree with nullable, firstpos and lastpos
-        OperandNode leafLeft;
-        OperandNode leafRight;
-        UnaryOpNode kleenschNode;
-        BinOpNode concatenationNode;
-        BinOpNode alternativeNode;
-
-        leafLeft = new OperandNode("a");
-        leafLeft.position = 1;
-        leafLeft.nullable = false;
-        leafLeft.firstpos.add(1);
-        leafLeft.lastpos.add(1);
-
-        leafRight = new OperandNode("b");
-        leafRight.position = 2;
-        leafRight.nullable = false;
-        leafRight.firstpos.add(2);
-        leafRight.lastpos.add(2);
-
-        alternativeNode = new BinOpNode("|", leafLeft, leafRight);
-        alternativeNode.nullable = false;
-        alternativeNode.firstpos.addAll(Set.of(1, 2));
-        alternativeNode.lastpos.addAll(Set.of(1, 2));
-
-        kleenschNode = new UnaryOpNode("*", alternativeNode);
-        kleenschNode.nullable = true;
-        kleenschNode.firstpos.addAll(Set.of(1, 2));
-        kleenschNode.lastpos.addAll(Set.of(1, 2));
-
-        leafRight = new OperandNode("c");
-        leafRight.position = 3;
-        leafRight.nullable = false;
-        leafRight.firstpos.add(3);
-        leafRight.lastpos.add(3);
-
-        concatenationNode = new BinOpNode("°", kleenschNode, leafRight);
-        concatenationNode.nullable = false;
-        concatenationNode.firstpos.addAll(Set.of(1, 2, 3));
-        concatenationNode.lastpos.add(3);
-
-        leafRight = new OperandNode("d");
-        leafRight.position = 4;
-        leafRight.nullable = false;
-        leafRight.firstpos.add(4);
-        leafRight.lastpos.add(4);
-
-        kleenschNode = new UnaryOpNode("*", leafRight);
-        kleenschNode.nullable = true;
-        kleenschNode.firstpos.add(4);
-        kleenschNode.lastpos.add(4);
-
-        concatenationNode = new BinOpNode("°", concatenationNode, kleenschNode);
-        concatenationNode.nullable = false;
-        concatenationNode.firstpos.addAll(Set.of(1, 2, 3));
-        concatenationNode.lastpos.addAll(Set.of(3, 4));
-
-        leafRight = new OperandNode("#");
-        leafRight.position = 5;
-        leafRight.nullable = false;
-        leafRight.firstpos.add(5);
-        leafRight.lastpos.add(5);
-
-        BinOpNode syntaxTreeWithValues = new BinOpNode("°", concatenationNode, leafRight);
-        syntaxTreeWithValues.nullable = false;
-        syntaxTreeWithValues.firstpos.addAll(Set.of(1, 2, 3));
-        syntaxTreeWithValues.lastpos.add(5);
+        Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_01();
 
         Parser parser = new Parser("((a|b)*cd*)#");
+        Visitable syntaxTreeByVisitor = parser.start();
+        DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
+
+        assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));
+    }
+
+    // Regex: d*(h|b)+w?
+    @Test
+    public void testFirstVisitor_02() {
+        // Input Syntax tree with nullable, firstpos and lastpos
+        Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_02();
+
+        Parser parser = new Parser("(d*(h|b)+w?)#");
         Visitable syntaxTreeByVisitor = parser.start();
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 

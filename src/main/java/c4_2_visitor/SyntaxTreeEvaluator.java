@@ -1,3 +1,4 @@
+// Author: Jan Fröhlich
 package c4_2_visitor;
 
 import c4_1_syntax_tree.*;
