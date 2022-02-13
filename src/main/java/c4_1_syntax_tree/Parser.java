@@ -54,7 +54,6 @@ public class Parser {
 
     private void match(char expect) {
         if (!nextIs(expect)) {
-            System.out.println("match failed!");
             throwErrorMessage("Expected '" + expect + "'");
         }
 
@@ -72,7 +71,6 @@ public class Parser {
     //
 
     public Visitable start() {
-        System.out.println("Start " + index);
         if (nextIs('#')) {
             match('#');
             assertEndOfInput();
@@ -92,12 +90,10 @@ public class Parser {
     }
 
     private Visitable regExp(Visitable parameter) {
-        System.out.println("RegExp " + index);
         return re(term(null));
     }
 
     private Visitable re(Visitable parameter) {
-        System.out.println("Re " + index);
         if (nextIs('|')) {
             match('|');
 
@@ -114,7 +110,6 @@ public class Parser {
     }
 
     private Visitable term(Visitable parameter) {
-        System.out.println("Term " + index);
         if (nextIs('(') || isNextAlphaNumeric()) {
             Visitable factorTree = factor(null);
 
@@ -133,7 +128,6 @@ public class Parser {
     }
 
     private Visitable factor(Visitable parameter) {
-        System.out.println("Factor " + index);
         if (nextIs('(') || isNextAlphaNumeric()) {
             Visitable ret = elem(null);
             return hOp(ret);
@@ -144,7 +138,6 @@ public class Parser {
     }
 
     private Visitable hOp(Visitable parameter) {
-        System.out.println("HOp " + index);
         if (nextIs('*')) {
             match('*');
             return new UnaryOpNode("*", parameter);
@@ -163,7 +156,6 @@ public class Parser {
     }
 
     private Visitable elem(Visitable parameter) {
-        System.out.println("Elem " + index);
         if (nextIs('(')) {
             match('(');
             Visitable ret = regExp(null);
@@ -178,7 +170,6 @@ public class Parser {
     }
 
     private Visitable alphanum(Visitable parameter) {
-        System.out.println("Alphanum " + index);
         char check = input.charAt(index);
         if (Character.isLetterOrDigit(check)) {
             match(check);
