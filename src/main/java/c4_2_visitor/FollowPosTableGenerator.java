@@ -29,14 +29,10 @@ public class FollowPosTableGenerator implements Visitor {
         if (node.operator.equals("°")) {
             Set<Integer> lastpos;
             Set<Integer> firstpos;
-            try {
-                // lastpos from node.left
-                lastpos = ((SyntaxNode) node.left).lastpos;
-                // firstpos from node.right
-                firstpos = ((SyntaxNode) node.right).firstpos;
-            } catch (Exception e) {
-                throw new RuntimeException("Node is not a SyntaxNode.");
-            }
+            // lastpos from node.left
+            lastpos = ((SyntaxNode) node.left).lastpos;
+            // firstpos from node.right
+            firstpos = ((SyntaxNode) node.right).firstpos;
 
             // Algorithm
             for (int i : lastpos) {
@@ -56,14 +52,10 @@ public class FollowPosTableGenerator implements Visitor {
         Set<Integer> lastpos;
         Set<Integer> firstpos;
 
-        try {
-            // lastpos from node.subNode
-            lastpos = ((SyntaxNode) node.subNode).lastpos;
-            // firstpos from node.subNode
-            firstpos = ((SyntaxNode) node.subNode).firstpos;
-        } catch (Exception e) {
-            throw new RuntimeException("Sub node is not a SyntaxNode.");
-        }
+        // lastpos from node.subNode
+        lastpos = ((SyntaxNode) node.subNode).lastpos;
+        // firstpos from node.subNode
+        firstpos = ((SyntaxNode) node.subNode).firstpos;
 
         if (node.operator.equals("*") || node.operator.equals("+")) {
             // Algorithm
