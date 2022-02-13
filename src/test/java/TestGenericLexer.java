@@ -1,11 +1,13 @@
 import c4_3_transition_matrix_dea.DFAState;
 import c4_4_generic_lexer.Lexer;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static dea_testing_toolbox.DFATestToolbox.mockStateTransitionTable;
-import static org.junit.jupiter.api.Assertions.*;
+import static dea_testing_toolbox.Utils.mockStateTransitionTable;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestGenericLexer {

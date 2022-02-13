@@ -10,22 +10,6 @@ public class UnaryOpNode extends SyntaxNode implements Visitable {
     }
 
     @Override
-    public String toString() {
-        return "(" + subNode.toString() + ")" + operator;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        var other = (UnaryOpNode) obj;
-        return operator.equals(other.operator)
-            && subNode.equals(other.subNode);
-    }
-
-    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }

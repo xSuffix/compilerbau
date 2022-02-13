@@ -1,3 +1,4 @@
+// Author: Jan Fröhlich
 package c4_2_visitor;
 
 import c4_1_syntax_tree.*;
@@ -6,12 +7,12 @@ import java.util.Objects;
 
 public class SyntaxTreeEvaluator implements Visitor {
 
-    private int position = 1;
+    private int position = 0;
 
     @Override
     public void visit(OperandNode node) {
         node.nullable = Objects.equals(node.symbol, "epsilon");
-        node.position = position++;
+        node.position = ++position;
 
         node.firstpos.add(position);
         node.lastpos.add(position);

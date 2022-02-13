@@ -4,8 +4,8 @@ public class Parser {
     private int index;
     private String input;
 
-    public Parser() {
-    }
+    public Parser() { }
+
     public Parser(String input) {
         initialize(input);
     }
@@ -16,7 +16,7 @@ public class Parser {
     }
 
     private void throwErrorMessage(String message) {
-        System.out.println("Error!");
+        System.out.println("SyntaxError!");
 
         System.out.print(message);
         System.out.print(" at index ");
@@ -44,41 +44,23 @@ public class Parser {
         return input.charAt(index) == peek;
     }
 
-    private boolean nextIsAlphaNumeric() {
-        for (int i = 0; i < 26; i++) {
-            if (nextIs((char)('A' + i))) {
-                return true;
-            }
-            if (nextIs((char)('a' + i))) {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < 10; i++) {
-            if (nextIs((char)('0' + i))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private char next() {
+    private boolean isNextAlphaNumeric() {
         if (endOfInput()) {
-            throwErrorMessage("Unexpected end of input");
+            return false;
         }
 
-        return input.charAt(index++);
+        return Character.isLetterOrDigit(input.charAt(index));
     }
 
     private void match(char expect) {
         if (!nextIs(expect)) {
             throwErrorMessage("Expected '" + expect + "'");
         }
-        next();
+
+        index++;
     }
 
-    private void matchEndOfInput() {
+    private void assertEndOfInput() {
         if (!endOfInput()) {
             throwErrorMessage("Expected end of input");
         }
@@ -88,119 +70,113 @@ public class Parser {
     // Parse Methods:
     //
 
-    // start -> '(' regex ')' '#'
     public Visitable start() {
-        match('(');
-        var result = regex();
-        match(')');
-        match('#');
-        matchEndOfInput();
+        if (nextIs('#')) {
+            match('#');
+            assertEndOfInput();
+            return new OperandNode("#");
+        } else if (nextIs('(')) {
+            match('(');
+            Visitable regexp = regExp(null);
+            match(')');
+            match('#');
+            assertEndOfInput();
 
-        return result;
+            return new BinOpNode("°", regexp, new OperandNode("#"));
+        } else {
+            throwErrorMessage("Expected # or (");
+            return null;
+        }
     }
 
-    // regex -> regex_left regex_right
-    private Visitable regex() {
-        var left = regexLeft();
-        var right = regexRight();
-
-        if (left == null && right == null) {
-            // case ""
-            return new OperandNode(""); // empty word
-        }
-
-        if (left != null && right != null) {
-            // case "a|b"
-            return new BinOpNode("|", left, right);
-        }
-
-        if (right != null) {
-            // case "|b"
-            return new BinOpNode("|", new OperandNode(""), right);
-        }
-
-        // case "a" or
-        // case "a|"
-        return left;
+    private Visitable regExp(Visitable parameter) {
+        return re(term(null));
     }
 
-    // regex_left -> element_and_operator regex_left
-    // regex_left -> ''
-    private Visitable regexLeft() {
-        if (nextIs('(') || nextIsAlphaNumeric()) {
-            var item = elementAndOperator();
-            var next = regexLeft();
+    private Visitable re(Visitable parameter) {
+        if (nextIs('|')) {
+            match('|');
 
-            if (next != null) {
-                return new BinOpNode("°", item, next);
+            Visitable term = term(null);
+            Visitable result = new BinOpNode("|", parameter, term);
+
+            return re(result);
+        } else if (nextIs(')')) {
+            return parameter;
+        } else {
+            throwErrorMessage("Expected '|' or ')'");
+            return null;
+        }
+    }
+
+    private Visitable term(Visitable parameter) {
+        if (nextIs('(') || isNextAlphaNumeric()) {
+            Visitable factorTree = factor(null);
+
+            if (parameter != null) {
+                Visitable root = new BinOpNode("°", parameter, factorTree);
+                return term(root);
             }
 
-            return item;
+            return term(factorTree);
+        } else if (nextIs('|') || nextIs(')')) {
+            return parameter;
+        } else {
+            throwErrorMessage("Expected '(', char, '|' or ')'");
+            return null;
         }
-
-        return null;
     }
 
-    // element_and_operator -> element operator
-    private Visitable elementAndOperator() {
-        var el = element();
-        var op = operator();
-
-        if (op == 0) {
-            return el;
+    private Visitable factor(Visitable parameter) {
+        if (nextIs('(') || isNextAlphaNumeric()) {
+            Visitable ret = elem(null);
+            return hOp(ret);
+        } else {
+            throwErrorMessage("Expected '(' or char");
+            return null;
         }
-
-        return new UnaryOpNode(""+op, el);
     }
 
-    // regex_right -> ''
-    // regex_right -> '|' regex
-    private Visitable regexRight() {
-        if (nextIs('|')) {
-            next();
-            return regex();
+    private Visitable hOp(Visitable parameter) {
+        if (nextIs('*')) {
+            match('*');
+            return new UnaryOpNode("*", parameter);
+        } else if (nextIs('+')) {
+            match('+');
+            return new UnaryOpNode("+", parameter);
+        } else if (nextIs('?')) {
+            match('?');
+            return new UnaryOpNode("?", parameter);
+        } else if (nextIs('(') || nextIs('|') || nextIs(')') || isNextAlphaNumeric()) {
+            return parameter;
+        } else {
+            throwErrorMessage("Expected '*', '+', '?', '(', '|', ')' or char");
+            return null;
         }
-
-        return null;
     }
 
-    // operator -> ''
-    // operator -> '*'
-    // operator -> '+'
-    // operator -> '?'
-    char operator() {
-        if (nextIs('*') || nextIs('+') || nextIs('?')) {
-            return next();
-        }
-
-        return 0;
-    }
-
-    // element -> alpha_numeric
-    // element -> '(' regex ')'
-    private Visitable element() {
+    private Visitable elem(Visitable parameter) {
         if (nextIs('(')) {
             match('(');
-            var re = regex();
+            Visitable ret = regExp(null);
             match(')');
-
-            return re;
+            return ret;
+        } else if (isNextAlphaNumeric()) {
+            return alphanum(null);
+        } else {
+            throwErrorMessage("Expected '(' or char");
+            return null;
         }
-
-        return new OperandNode(""+alphaNumeric());
     }
 
-
-    // alpha_numeric -> 'a'
-    // alpha_numeric -> 'b'
-    // alpha_numeric -> 'c'
-    // ...
-    char alphaNumeric() {
-        if (nextIsAlphaNumeric()) {
-            return next();
+    private Visitable alphanum(Visitable parameter) {
+        char check = input.charAt(index);
+        if (Character.isLetterOrDigit(check)) {
+            match(check);
+        } else {
+            throwErrorMessage("Expected char");
         }
 
-        throwErrorMessage("Expected alpha-numeric character");
-        return 0;
+        return new OperandNode(String.valueOf(check));
     }
 }

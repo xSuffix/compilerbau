@@ -13,6 +13,13 @@ public class DFAState {
         this.positionsSet = positionsSet;
     }
 
+    private static boolean equals(Object o1, Object o2) {
+        if (o1 == o2) return true;
+        if (o1 == null) return false;
+        if (o2 == null) return false;
+        return o1.equals(o2);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -25,12 +32,5 @@ public class DFAState {
     @Override
     public int hashCode() {
         return this.positionsSet == null ? 0 : this.positionsSet.hashCode();
-    }
-
-    private static boolean equals(Object o1, Object o2) {
-        if (o1 == o2) return true;
-        if (o1 == null) return false;
-        if (o2 == null) return false;
-        return o1.equals(o2);
     }
 }

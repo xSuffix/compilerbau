@@ -1,11 +1,39 @@
+// Author: Jan Fröhlich
 package visitor;
 
-import c4_1_syntax_tree.BinOpNode;
-import c4_1_syntax_tree.OperandNode;
-import c4_1_syntax_tree.UnaryOpNode;
-import c4_1_syntax_tree.Visitable;
+import c4_1_syntax_tree.*;
+import c4_2_visitor.DepthFirstIterator;
+import c4_2_visitor.SyntaxTreeEvaluator;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FirstVisitorTest {
+
+    // From lecture chapter 3, slide 95
+    // Regex: (a|b)*cd*
+    @Test
+    public void testFirstVisitor_01() {
+        // Input Syntax tree with nullable, firstpos and lastpos
+        Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_01();
+
+        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("b"))), new OperandNode("c")), new UnaryOpNode("*", new OperandNode("d"))), new OperandNode("#"));;
+        DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
+
+        assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));
+    }
+
+    // Regex: d*(h|b)+w?
+    @Test
+    public void testFirstVisitor_02() {
+        // Input Syntax tree with nullable, firstpos and lastpos
+        Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_02();
+
+        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new OperandNode("d")), new UnaryOpNode("+", new BinOpNode("|", new OperandNode("h"), new OperandNode("b")))), new UnaryOpNode("?", new OperandNode("w"))) , new OperandNode("#"));
+        DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
+
+        assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));
+    }
 
     private boolean equals(Visitable expected, Visitable visited) {
         if (expected == null && visited == null) return true;

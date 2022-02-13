@@ -12,23 +12,6 @@ public class BinOpNode extends SyntaxNode implements Visitable {
     }
 
     @Override
-    public String toString() {
-        return "(" + left.toString() + ")" + operator + "(" + right.toString() + ")";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        var other = (BinOpNode) obj;
-        return operator.equals(other.operator)
-            && left.equals(other.left)
-            && right.equals(other.right);
-    }
-
-    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
