@@ -1,5 +1,7 @@
 package c4_1_syntax_tree;
 
+import java.text.ParseException;
+
 public class Parser {
     private int index;
     private String input;
@@ -15,7 +17,7 @@ public class Parser {
         this.input = input;
     }
 
-    private void throwErrorMessage(String message) {
+    private void throwErrorMessage(String message) throws ParseException {
         System.out.println("SyntaxError!");
 
         System.out.print(message);
@@ -29,7 +31,7 @@ public class Parser {
         }
         System.out.println("^ here");
 
-        throw new RuntimeException("SyntaxError!");
+        throw new ParseException("SyntaxError!", index);
     }
 
     private boolean endOfInput() {
@@ -52,7 +54,7 @@ public class Parser {
         return Character.isLetterOrDigit(input.charAt(index));
     }
 
-    private void match(char expect) {
+    private void match(char expect) throws ParseException {
         if (!nextIs(expect)) {
             throwErrorMessage("Expected '" + expect + "'");
         }
@@ -60,7 +62,7 @@ public class Parser {
         index++;
     }
 
-    private void assertEndOfInput() {
+    private void assertEndOfInput() throws ParseException {
         if (!endOfInput()) {
             throwErrorMessage("Expected end of input");
         }
@@ -70,7 +72,7 @@ public class Parser {
     // Parse Methods:
     //
 
-    public Visitable start() {
+    public Visitable start() throws ParseException {
         if (nextIs('#')) {
             match('#');
             assertEndOfInput();
@@ -89,11 +91,11 @@ public class Parser {
         }
     }
 
-    private Visitable regExp(Visitable parameter) {
+    private Visitable regExp(Visitable parameter) throws ParseException {
         return re(term(null));
     }
 
-    private Visitable re(Visitable parameter) {
+    private Visitable re(Visitable parameter) throws ParseException {
         if (nextIs('|')) {
             match('|');
 
@@ -109,7 +111,7 @@ public class Parser {
         }
     }
 
-    private Visitable term(Visitable parameter) {
+    private Visitable term(Visitable parameter) throws ParseException {
         if (nextIs('(') || isNextAlphaNumeric()) {
             Visitable factorTree = factor(null);
 
@@ -127,7 +129,7 @@ public class Parser {
         }
     }
 
-    private Visitable factor(Visitable parameter) {
+    private Visitable factor(Visitable parameter) throws ParseException {
         if (nextIs('(') || isNextAlphaNumeric()) {
             Visitable ret = elem(null);
             return hOp(ret);
@@ -137,7 +139,7 @@ public class Parser {
         }
     }
 
-    private Visitable hOp(Visitable parameter) {
+    private Visitable hOp(Visitable parameter) throws ParseException {
         if (nextIs('*')) {
             match('*');
             return new UnaryOpNode("*", parameter);
@@ -155,7 +157,7 @@ public class Parser {
         }
     }
 
-    private Visitable elem(Visitable parameter) {
+    private Visitable elem(Visitable parameter) throws ParseException {
         if (nextIs('(')) {
             match('(');
             Visitable ret = regExp(null);
@@ -169,7 +171,7 @@ public class Parser {
         }
     }
 
-    private Visitable alphanum(Visitable parameter) {
+    private Visitable alphanum(Visitable parameter) throws ParseException {
         char check = input.charAt(index);
         if (Character.isLetterOrDigit(check)) {
             match(check);
