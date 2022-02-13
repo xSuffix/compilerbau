@@ -1,8 +1,8 @@
 // Author: Gabriel Nill
+
 import c4_3_transition_matrix_dfa.DFAState;
 import c4_4_generic_lexer.Lexer;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;

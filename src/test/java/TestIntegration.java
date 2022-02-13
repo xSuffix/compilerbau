@@ -1,4 +1,6 @@
 // Author: Gabriel Nill
+// Er hat darauf bestanden. Ein kleiner Bonus :)
+
 import c4_1_syntax_tree.Parser;
 import c4_1_syntax_tree.SyntaxNode;
 import c4_1_syntax_tree.Visitable;
@@ -12,7 +14,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestIntegration {
@@ -24,11 +27,12 @@ public class TestIntegration {
         DepthFirstIterator.traverse(syntaxTree, new SyntaxTreeEvaluator());
         FollowPosTableGenerator fpGenerator = new FollowPosTableGenerator();
         DepthFirstIterator.traverse(syntaxTree, fpGenerator);
-        DFACreator dfaCreator = new DFACreator(((SyntaxNode)syntaxTree).firstpos, fpGenerator.getFollowPosTable());
+        DFACreator dfaCreator = new DFACreator(((SyntaxNode) syntaxTree).firstpos, fpGenerator.getFollowPosTable());
         dfaCreator.populateStateTransitionTable();
         Lexer lexer = new Lexer(dfaCreator.getStateTransitionTable());
         assertTrue(lexer.match("bbabbbaaaaaabbabbbabbabbbabababababbbabb"));
     }
+
     @Test
     @Order(2)
     public void integrationFailTest() {
@@ -37,7 +41,7 @@ public class TestIntegration {
         DepthFirstIterator.traverse(syntaxTree, new SyntaxTreeEvaluator());
         FollowPosTableGenerator fpGenerator = new FollowPosTableGenerator();
         DepthFirstIterator.traverse(syntaxTree, fpGenerator);
-        DFACreator dfaCreator = new DFACreator(((SyntaxNode)syntaxTree).firstpos, fpGenerator.getFollowPosTable());
+        DFACreator dfaCreator = new DFACreator(((SyntaxNode) syntaxTree).firstpos, fpGenerator.getFollowPosTable());
         dfaCreator.populateStateTransitionTable();
         Lexer lexer = new Lexer(dfaCreator.getStateTransitionTable());
         assertFalse(lexer.match("amogus"));

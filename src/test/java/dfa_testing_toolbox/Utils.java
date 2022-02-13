@@ -3,6 +3,7 @@ package dfa_testing_toolbox;
 
 import c4_2_visitor.FollowposTableEntry;
 import c4_3_transition_matrix_dfa.DFAState;
+
 import java.util.*;
 
 public class Utils {

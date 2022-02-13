@@ -5,7 +5,8 @@ public class Parser {
     private int index;
     private String input;
 
-    public Parser() { }
+    public Parser() {
+    }
 
     public Parser(String input) {
         initialize(input);
@@ -15,8 +16,8 @@ public class Parser {
         index = 0;
         this.input = input;
     }
-    
-    
+
+
     private void throwErrorMessage(String message) {
         System.out.println("SyntaxError!");
 

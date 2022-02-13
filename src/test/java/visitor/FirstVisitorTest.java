@@ -1,7 +1,10 @@
 // Author: Jan Fröhlich
 package visitor;
 
-import c4_1_syntax_tree.*;
+import c4_1_syntax_tree.BinOpNode;
+import c4_1_syntax_tree.OperandNode;
+import c4_1_syntax_tree.UnaryOpNode;
+import c4_1_syntax_tree.Visitable;
 import c4_2_visitor.DepthFirstIterator;
 import c4_2_visitor.SyntaxTreeEvaluator;
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,7 @@ public class FirstVisitorTest {
         Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_01();
 
         // Same syntax tree but values filled by SyntaxTreeEvaluator
-        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("b"))), new OperandNode("c")), new UnaryOpNode("*", new OperandNode("d"))), new OperandNode("#"));;
+        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("b"))), new OperandNode("c")), new UnaryOpNode("*", new OperandNode("d"))), new OperandNode("#"));
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 
         assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));
@@ -31,7 +34,7 @@ public class FirstVisitorTest {
         Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_02();
 
         // Same syntax tree but values filled by SyntaxTreeEvaluator
-        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new OperandNode("d")), new UnaryOpNode("+", new BinOpNode("|", new OperandNode("h"), new OperandNode("b")))), new UnaryOpNode("?", new OperandNode("w"))) , new OperandNode("#"));
+        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new OperandNode("d")), new UnaryOpNode("+", new BinOpNode("|", new OperandNode("h"), new OperandNode("b")))), new UnaryOpNode("?", new OperandNode("w"))), new OperandNode("#"));
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 
         assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));

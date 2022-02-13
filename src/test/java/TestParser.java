@@ -1,4 +1,5 @@
 // Author: Tobias Kohnle
+
 import c4_1_syntax_tree.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -137,7 +138,7 @@ public class TestParser {
     public void testMixed() {
         parser.initialize("(a?b+|c*)#");
         Visitable actual = parser.start();
-        Visitable expected = new BinOpNode("°", new BinOpNode("|", new BinOpNode("°", new UnaryOpNode("?", new OperandNode("a")) , new UnaryOpNode("+", new OperandNode("b"))), new UnaryOpNode("*", new OperandNode("c"))), new OperandNode("#"));
+        Visitable expected = new BinOpNode("°", new BinOpNode("|", new BinOpNode("°", new UnaryOpNode("?", new OperandNode("a")), new UnaryOpNode("+", new OperandNode("b"))), new UnaryOpNode("*", new OperandNode("c"))), new OperandNode("#"));
 
         equals(expected, actual);
     }
