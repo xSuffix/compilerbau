@@ -11,9 +11,9 @@ import java.util.Set;
 public class StaticSyntaxTree {
     // Syntax trees with nullable, firstpos and lastpos
 
+    // From lecture chapter 3, slide 94ff
+    // Regex: ((a|b)*cd*=#
     public static Visitable getTestTree_01() {
-        // From lecture chapter 3, slide 94ff
-        // Regex: ((a|b)*cd*=#
         OperandNode leafLeft;
         OperandNode leafRight;
         UnaryOpNode kleenschNode;
@@ -83,8 +83,8 @@ public class StaticSyntaxTree {
         return syntaxTreeWithValues;
     }
 
+    // Regex: (d*(h|b)+w?)#
     public static Visitable getTestTree_02() {
-        // Regex: (d*(h|b)+w?)#
         OperandNode leafLeft;
         OperandNode leafRight;
         UnaryOpNode kleenschNode;

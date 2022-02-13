@@ -14,9 +14,10 @@ public class FirstVisitorTest {
     // Regex: (a|b)*cd*
     @Test
     public void testFirstVisitor_01() {
-        // Input Syntax tree with nullable, firstpos and lastpos
+        // Input syntax tree with nullable, firstpos and lastpos
         Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_01();
 
+        // Same syntax tree but values filled by SyntaxTreeEvaluator
         Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("b"))), new OperandNode("c")), new UnaryOpNode("*", new OperandNode("d"))), new OperandNode("#"));;
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 
@@ -26,9 +27,10 @@ public class FirstVisitorTest {
     // Regex: d*(h|b)+w?
     @Test
     public void testFirstVisitor_02() {
-        // Input Syntax tree with nullable, firstpos and lastpos
+        // Input syntax tree with nullable, firstpos and lastpos
         Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_02();
 
+        // Same syntax tree but values filled by SyntaxTreeEvaluator
         Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new OperandNode("d")), new UnaryOpNode("+", new BinOpNode("|", new OperandNode("h"), new OperandNode("b")))), new UnaryOpNode("?", new OperandNode("w"))) , new OperandNode("#"));
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 

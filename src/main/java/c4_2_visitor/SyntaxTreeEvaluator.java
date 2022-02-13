@@ -13,7 +13,6 @@ public class SyntaxTreeEvaluator implements Visitor {
     public void visit(OperandNode node) {
         node.nullable = Objects.equals(node.symbol, "epsilon");
         node.position = ++position;
-
         node.firstpos.add(position);
         node.lastpos.add(position);
     }
