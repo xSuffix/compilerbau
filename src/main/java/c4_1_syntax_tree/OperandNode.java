@@ -10,11 +10,6 @@ public class OperandNode extends SyntaxNode implements Visitable {
     }
 
     @Override
-    public String toString() {
-        return symbol;
-    }
-
-    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }

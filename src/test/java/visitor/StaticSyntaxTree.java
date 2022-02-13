@@ -13,7 +13,7 @@ public class StaticSyntaxTree {
 
     public static Visitable getTestTree_01() {
         // From lecture chapter 3, slide 94ff
-        // Regex: (a|b)*cd*
+        // Regex: ((a|b)*cd*=#
         OperandNode leafLeft;
         OperandNode leafRight;
         UnaryOpNode kleenschNode;
@@ -84,7 +84,7 @@ public class StaticSyntaxTree {
     }
 
     public static Visitable getTestTree_02() {
-        // Regex: d*(h|b)+w?
+        // Regex: (d*(h|b)+w?)#
         OperandNode leafLeft;
         OperandNode leafRight;
         UnaryOpNode kleenschNode;

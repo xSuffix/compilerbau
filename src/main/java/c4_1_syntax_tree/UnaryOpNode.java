@@ -10,11 +10,6 @@ public class UnaryOpNode extends SyntaxNode implements Visitable {
     }
 
     @Override
-    public String toString() {
-        return "(" + subNode.toString() + ")" + operator;
-    }
-
-    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }

@@ -4,8 +4,8 @@ public class Parser {
     private int index;
     private String input;
 
-    public Parser() {
-    }
+    public Parser() { }
+
     public Parser(String input) {
         initialize(input);
     }
@@ -44,20 +44,12 @@ public class Parser {
         return input.charAt(index) == peek;
     }
 
-    private boolean nextIsAlphaNumeric() {
+    private boolean isNextAlphaNumeric() {
         if (endOfInput()) {
             return false;
         }
 
         return Character.isLetterOrDigit(input.charAt(index));
-    }
-
-    private char next() {
-        if (endOfInput()) {
-            throwErrorMessage("Unexpected end of input");
-        }
-
-        return input.charAt(index++);
     }
 
     private void match(char expect) {
@@ -66,7 +58,7 @@ public class Parser {
             throwErrorMessage("Expected '" + expect + "'");
         }
 
-        next();
+        index++;
     }
 
     private void assertEndOfInput() {
@@ -85,8 +77,7 @@ public class Parser {
             match('#');
             assertEndOfInput();
             return new OperandNode("#");
-        }
-        else if (nextIs('(')) {
+        } else if (nextIs('(')) {
             match('(');
             Visitable regexp = regExp(null);
             match(')');
@@ -96,7 +87,7 @@ public class Parser {
             return new BinOpNode("°", regexp, new OperandNode("#"));
         } else {
             throwErrorMessage("Expected # or (");
-            throw new RuntimeException("Unreachable");
+            return null;
         }
     }
 
@@ -114,19 +105,17 @@ public class Parser {
             Visitable result = new BinOpNode("|", parameter, term);
 
             return re(result);
-        }
-        else if (nextIs(')')) {
+        } else if (nextIs(')')) {
             return parameter;
-        }
-        else {
+        } else {
             throwErrorMessage("Expected '|' or ')'");
-            throw new RuntimeException("Unreachable");
+            return null;
         }
     }
 
     private Visitable term(Visitable parameter) {
         System.out.println("Term " + index);
-        if (nextIs('(') || nextIsAlphaNumeric()) {
+        if (nextIs('(') || isNextAlphaNumeric()) {
             Visitable factorTree = factor(null);
 
             if (parameter != null) {
@@ -135,25 +124,22 @@ public class Parser {
             }
 
             return term(factorTree);
-        }
-        else if (nextIs('|') || nextIs(')')) {
+        } else if (nextIs('|') || nextIs(')')) {
             return parameter;
-        }
-        else {
+        } else {
             throwErrorMessage("Expected '(', char, '|' or ')'");
-            throw new RuntimeException("Unreachable");
+            return null;
         }
     }
 
     private Visitable factor(Visitable parameter) {
         System.out.println("Factor " + index);
-        if (nextIs('(') || nextIsAlphaNumeric()) {
+        if (nextIs('(') || isNextAlphaNumeric()) {
             Visitable ret = elem(null);
             return hOp(ret);
-        }
-        else {
+        } else {
             throwErrorMessage("Expected '(' or char");
-            throw new RuntimeException("Unreachable");
+            return null;
         }
     }
 
@@ -162,21 +148,17 @@ public class Parser {
         if (nextIs('*')) {
             match('*');
             return new UnaryOpNode("*", parameter);
-        }
-        else if (nextIs('+')) {
+        } else if (nextIs('+')) {
             match('+');
             return new UnaryOpNode("+", parameter);
-        }
-        else if (nextIs('?')) {
+        } else if (nextIs('?')) {
             match('?');
             return new UnaryOpNode("?", parameter);
-        }
-        else if (nextIs('(') || nextIs('|') || nextIs(')') || nextIsAlphaNumeric()) {
+        } else if (nextIs('(') || nextIs('|') || nextIs(')') || isNextAlphaNumeric()) {
             return parameter;
-        }
-        else {
+        } else {
             throwErrorMessage("Expected '*', '+', '?', '(', '|', ')' or char");
-            throw new RuntimeException("Unreachable");
+            return null;
         }
     }
 
@@ -187,24 +169,23 @@ public class Parser {
             Visitable ret = regExp(null);
             match(')');
             return ret;
-        }
-        else if (nextIsAlphaNumeric()) {
+        } else if (isNextAlphaNumeric()) {
             return alphanum(null);
-        }
-        else {
+        } else {
             throwErrorMessage("Expected '(' or char");
-            throw new RuntimeException("Unreachable");
+            return null;
         }
     }
 
     private Visitable alphanum(Visitable parameter) {
         System.out.println("Alphanum " + index);
-        if (nextIsAlphaNumeric()) {
-            return new OperandNode(""+next());
-        }
-        else {
+        char check = input.charAt(index);
+        if (Character.isLetterOrDigit(check)) {
+            match(check);
+        } else {
             throwErrorMessage("Expected char");
-            throw new RuntimeException("Unreachable");
         }
+
+        return new OperandNode(String.valueOf(check));
     }
 }

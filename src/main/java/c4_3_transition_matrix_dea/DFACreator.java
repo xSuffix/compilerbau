@@ -24,13 +24,13 @@ public class DFACreator {
     public void populateStateTransitionTable() {
         int index = 1;
         Queue<DFAState> qStates = new LinkedList<>();
-        DFAState firstPos = new DFAState(index, accepts(positionsForStartState),positionsForStartState);
+        DFAState firstPos = new DFAState(index, accepts(positionsForStartState), positionsForStartState);
         qStates.add(firstPos);
 
         while (!qStates.isEmpty()) {
             DFAState currentState = qStates.remove();
-            stateTransitionTable.put(currentState,new HashMap<>());
-            
+            stateTransitionTable.put(currentState, new HashMap<>());
+
             for (char symbol : inputAlphabet()) {
                 DFAState followingState = followingState(++index, currentState, symbol);
                 stateTransitionTable.get(currentState).put(symbol, followingState);

@@ -17,20 +17,14 @@ public class Lexer {
             return false;
         }
 
-    //  System.out.println("Starting state: " + state.index);
-    //  System.out.println("Word: " + word);
-
         char[] symbols = word.toCharArray();
 
         for (char letter : symbols) {
             if (!stateTransitionTable.get(state).containsKey(letter)) {
-            //  System.out.println("Read symbol: '" + letter + "' -> invalid transition");
                 return false;
             }
             state = stateTransitionTable.get(state).get(letter);
-        //  System.out.println("Read symbol: '" + letter + "' -> new state: " + state.index);
         }
-    //  System.out.println(state.isAcceptingState ? "Accepted" : "Not Accepted");
         return state.isAcceptingState;
     }
 

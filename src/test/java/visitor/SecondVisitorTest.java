@@ -1,7 +1,7 @@
 // Autor: Fabian Weller
 package visitor;
 
-import c4_1_syntax_tree.*;
+import c4_1_syntax_tree.Visitable;
 import c4_2_visitor.DepthFirstIterator;
 import c4_2_visitor.FollowPosTableGenerator;
 import c4_2_visitor.FollowposTableEntry;
@@ -12,12 +12,12 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SecondVisitorTest {
 
     // From lecture chapter 3, slide 94ff
-    // Regex: (a|b)*cd*
+    // Regex: ((a|b)*cd*)#
     @Test
     public void testSecondVisitor_01() {
         // Input Syntax tree with nullable, firstpos and lastpos
@@ -56,7 +56,7 @@ class SecondVisitorTest {
         );
     }
 
-    // Regex: d*(h|b)+w?
+    // Regex: (d*(h|b)+w?)#
     @Test
     public void testSecondVisitor_02() {
         // Input Syntax tree with nullable, firstpos and lastpos
