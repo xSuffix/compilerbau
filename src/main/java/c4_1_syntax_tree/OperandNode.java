@@ -5,7 +5,7 @@ public class OperandNode extends SyntaxNode implements Visitable {
     public String symbol;
 
     public OperandNode(String symbol) {
-        position = -1; // bedeutet: noch nicht initialisiert
+        position = -1; // not initialized yet
         this.symbol = symbol;
     }
 

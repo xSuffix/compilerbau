@@ -1,6 +1,7 @@
+// Author: Gabriel Nill
 package c4_4_generic_lexer;
 
-import c4_3_transition_matrix_dea.DFAState;
+import c4_3_transition_matrix_dfa.DFAState;
 
 import java.util.Map;
 
@@ -19,20 +20,26 @@ public class Lexer {
 
         char[] symbols = word.toCharArray();
 
-        for (char letter : symbols) {
-            if (!stateTransitionTable.get(state).containsKey(letter)) {
+        for (char symbol : symbols) {
+            if (!stateTransitionTable.get(state).containsKey(symbol)) {
                 return false;
             }
-            state = stateTransitionTable.get(state).get(letter);
+            state = stateTransitionTable.get(state).get(symbol);
         }
         return state.isAcceptingState;
     }
 
     private DFAState startPos() {
-        for (DFAState state : stateTransitionTable.keySet()) {
-            if (state.index == 1) {
-                return state;
+        try {
+            for (DFAState state : stateTransitionTable.keySet()) {
+                if (state.index == 1) {
+                    return state;
+                }
             }
+            System.out.println("Lexer error: no starting state recorded.");
+        } catch (Exception ex) {
+            // that way the result will be zero
+            System.out.println("Lexer error: corrupt or null stateTransitionTable");
         }
         return null;
     }

@@ -1,11 +1,13 @@
-import c4_3_transition_matrix_dea.DFAState;
+// Author: Gabriel Nill
+import c4_3_transition_matrix_dfa.DFAState;
 import c4_4_generic_lexer.Lexer;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import static dea_testing_toolbox.Utils.mockStateTransitionTable;
+import static dfa_testing_toolbox.Utils.mockStateTransitionTable;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,32 +34,50 @@ public class TestGenericLexer {
     @Test
     @Order(2)
     public void TestInvalidMinimal() {
-        String validMinimalExpression = "x";
+        String invalidExpression = "x";
 
-        assertFalse(testLexer.match(validMinimalExpression));
+        assertFalse(testLexer.match(invalidExpression));
     }
 
     @Test
     @Order(3)
     public void TestValidWithStartRepetition() {
-        String validMinimalExpression = "bbbabb";
+        String validWithStartRepetition = "bbbabb";
 
-        assertTrue(testLexer.match(validMinimalExpression));
+        assertTrue(testLexer.match(validWithStartRepetition));
     }
 
     @Test
     @Order(4)
     public void TestNonAccepting() {
-        String validMinimalExpression = "abbb";
+        String nonAcceptingExpression = "abbb";
 
-        assertFalse(testLexer.match(validMinimalExpression));
+        assertFalse(testLexer.match(nonAcceptingExpression));
     }
 
     @Test
     @Order(5)
-    public void TestValidMultirepetition() {
-        String validMinimalExpression = "bbbbaaaaabaabababbaababbbbbbabb";
+    public void TestValidMultiRepetition() {
+        String validMultiRepetitionExpression = "bbbbaaaaabaabababbaababbbbbbabb";
 
-        assertTrue(testLexer.match(validMinimalExpression));
+        assertTrue(testLexer.match(validMultiRepetitionExpression));
+    }
+
+    @Test
+    @Order(6)
+    public void EmptyAutomaton() {
+        Lexer invalidLexer = new Lexer(null);
+        String irrelevantExpression = "does not matter";
+
+        assertFalse(invalidLexer.match(irrelevantExpression));
+    }
+
+    @Test
+    @Order(6)
+    public void EmptyAutomatonMap() {
+        Lexer invalidLexer = new Lexer(new HashMap<>());
+        String irrelevantExpression = "also does not matter";
+
+        assertFalse(invalidLexer.match(irrelevantExpression));
     }
 }

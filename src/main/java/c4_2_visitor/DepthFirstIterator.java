@@ -1,3 +1,4 @@
+// Author: Jan Fröhlich
 package c4_2_visitor;
 
 import c4_1_syntax_tree.*;
@@ -8,15 +9,13 @@ public class DepthFirstIterator {
             root.accept(visitor);
             return;
         }
-        if (root instanceof BinOpNode) {
-            BinOpNode opNode = (BinOpNode) root;
+        if (root instanceof BinOpNode opNode) {
             DepthFirstIterator.traverse(opNode.left, visitor);
             DepthFirstIterator.traverse(opNode.right, visitor);
             opNode.accept(visitor);
             return;
         }
-        if (root instanceof UnaryOpNode) {
-            UnaryOpNode opNode = (UnaryOpNode) root;
+        if (root instanceof UnaryOpNode opNode) {
             DepthFirstIterator.traverse(opNode.subNode, visitor);
             opNode.accept(visitor);
             return;

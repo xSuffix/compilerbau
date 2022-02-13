@@ -1,13 +1,8 @@
-package dea_testing_toolbox;
+// Author: Gabriel Nill
+package dfa_testing_toolbox;
 
 import c4_2_visitor.FollowposTableEntry;
-import c4_3_transition_matrix_dea.DFACreator;
-import c4_3_transition_matrix_dea.DFAState;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
+import c4_3_transition_matrix_dfa.DFAState;
 import java.util.*;
 
 public class Utils {
@@ -64,36 +59,25 @@ public class Utils {
         );
     }
 
-    public static SortedMap<Integer, FollowposTableEntry> mockFollowposTableEntries() {
-        FollowposTableEntry a = new FollowposTableEntry(1, "a");
-        a.followpos.addAll(Arrays.asList(1, 2, 3));
-        FollowposTableEntry b = new FollowposTableEntry(2, "b");
-        b.followpos.addAll(Arrays.asList(1, 2, 3));
-        FollowposTableEntry c = new FollowposTableEntry(3, "a");
-        c.followpos.add(4);
-        FollowposTableEntry d = new FollowposTableEntry(4, "b");
-        d.followpos.add(5);
-        FollowposTableEntry e = new FollowposTableEntry(5, "b");
-        e.followpos.add(6);
-        FollowposTableEntry f = new FollowposTableEntry(6, "#");
+    public static SortedMap<Integer, FollowposTableEntry> mockFollowPosTableEntries() {
+        FollowposTableEntry entry1 = new FollowposTableEntry(1, "a");
+        entry1.followpos.addAll(Arrays.asList(1, 2, 3));
+        FollowposTableEntry entry2 = new FollowposTableEntry(2, "b");
+        entry2.followpos.addAll(Arrays.asList(1, 2, 3));
+        FollowposTableEntry entry3 = new FollowposTableEntry(3, "a");
+        entry3.followpos.add(4);
+        FollowposTableEntry entry4 = new FollowposTableEntry(4, "b");
+        entry4.followpos.add(5);
+        FollowposTableEntry entry5 = new FollowposTableEntry(5, "b");
+        entry5.followpos.add(6);
+        FollowposTableEntry entry6 = new FollowposTableEntry(6, "#");
         return new TreeMap<>(Map.ofEntries(
-                new AbstractMap.SimpleEntry<>(1, a),
-                new AbstractMap.SimpleEntry<>(2, b),
-                new AbstractMap.SimpleEntry<>(3, c),
-                new AbstractMap.SimpleEntry<>(4, d),
-                new AbstractMap.SimpleEntry<>(5, e),
-                new AbstractMap.SimpleEntry<>(6, f)
+                new AbstractMap.SimpleEntry<>(1, entry1),
+                new AbstractMap.SimpleEntry<>(2, entry2),
+                new AbstractMap.SimpleEntry<>(3, entry3),
+                new AbstractMap.SimpleEntry<>(4, entry4),
+                new AbstractMap.SimpleEntry<>(5, entry5),
+                new AbstractMap.SimpleEntry<>(6, entry6)
         ));
-    }
-
-    public static void printTables(Map<DFAState, Map<Character, DFAState>> stateTransitionTable, DFACreator creator) {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.enableComplexMapKeySerialization().create();
-        Type type = new TypeToken<Map<DFAState, Map<Character, DFAState>>>() {
-        }.getType();
-        String json = gson.toJson(stateTransitionTable, type);
-        System.out.println("Expected:\n" + json);
-        json = gson.toJson(creator.getStateTransitionTable(), type);
-        System.out.println("Actual:\n" + json);
     }
 }

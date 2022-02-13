@@ -1,3 +1,4 @@
+// Author: Tobias Kohnle
 package c4_1_syntax_tree;
 
 public class Parser {
@@ -14,7 +15,8 @@ public class Parser {
         index = 0;
         this.input = input;
     }
-
+    
+    
     private void throwErrorMessage(String message) {
         System.out.println("SyntaxError!");
 

@@ -1,4 +1,5 @@
-package c4_3_transition_matrix_dea;
+// Author: Gabriel Nill
+package c4_3_transition_matrix_dfa;
 
 import c4_2_visitor.FollowposTableEntry;
 
@@ -8,16 +9,16 @@ import java.util.stream.Stream;
 
 public class DFACreator {
     private final Set<Integer> positionsForStartState;
-    private final SortedMap<Integer, FollowposTableEntry> followposTable;
+    private final SortedMap<Integer, FollowposTableEntry> followPosTable;
     private final Map<DFAState, Map<Character, DFAState>> stateTransitionTable;
 
     /**
      * Man beachte ! Parameter <code>positionsForStartState</code> muss vom Aufrufer
      * mit der firstpos-Menge des Wurzelknotens des Syntaxbaums initialisiert werden !
      */
-    public DFACreator(Set<Integer> positionsForStartState, SortedMap<Integer, FollowposTableEntry> followposTable) {
+    public DFACreator(Set<Integer> positionsForStartState, SortedMap<Integer, FollowposTableEntry> followPosTable) {
         this.positionsForStartState = positionsForStartState;
-        this.followposTable = followposTable;
+        this.followPosTable = followPosTable;
         this.stateTransitionTable = new HashMap<>();
     }
 
@@ -47,7 +48,7 @@ public class DFACreator {
 
     private Set<Character> inputAlphabet() {
         Set<Character> alphabet = new HashSet<>();
-        for (FollowposTableEntry entry : followposTable.values()) {
+        for (FollowposTableEntry entry : followPosTable.values()) {
             if (entry.symbol.toCharArray()[0] != '#') {
                 alphabet.add(entry.symbol.toCharArray()[0]);
             }
@@ -56,20 +57,13 @@ public class DFACreator {
     }
 
     private boolean accepts(Set<Integer> positionsSet) {
-        for (Integer position : positionsSet) {
-            for (FollowposTableEntry entry : followposTable.values()) {
-                if (position == entry.position && entry.followpos.contains(followposTable.size())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return positionsSet.contains(followPosTable.size());
     }
 
     private DFAState followingState(Integer index, DFAState currentState, char symbol) {
         Set<Integer> followingPositions = new HashSet<>();
         for (Integer position : currentState.positionsSet) {
-            for (FollowposTableEntry entry : followposTable.values()) {
+            for (FollowposTableEntry entry : followPosTable.values()) {
                 if (position == entry.position && symbol == entry.symbol.toCharArray()[0]) {
                     followingPositions = Stream.of(followingPositions, entry.followpos)
                             .flatMap(Set::stream)

@@ -1,6 +1,7 @@
+// Author: Gabriel Nill
 import c4_2_visitor.FollowposTableEntry;
-import c4_3_transition_matrix_dea.DFACreator;
-import c4_3_transition_matrix_dea.DFAState;
+import c4_3_transition_matrix_dfa.DFACreator;
+import c4_3_transition_matrix_dfa.DFAState;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -8,26 +9,23 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.*;
 
-import static dea_testing_toolbox.Utils.*;
+import static dfa_testing_toolbox.Utils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TestDEACreator {
+public class TestDFACreator {
 
     @Test
     @Order(1)
     public void testDFACreator() {
         Set<Integer> positionsOfStartState = new HashSet<>(Arrays.asList(1, 2, 3));
 
-        // hart kodiert über Toolbox-Helperfunction
-        SortedMap<Integer, FollowposTableEntry> followposTableEntries = mockFollowposTableEntries();
+        // hardcoded by toolbox-helper-function
+        SortedMap<Integer, FollowposTableEntry> followPosTableEntries = mockFollowPosTableEntries();
         Map<DFAState, Map<Character, DFAState>> stateTransitionTable = mockStateTransitionTable();
 
-        DFACreator creator = new DFACreator(positionsOfStartState, followposTableEntries);
+        DFACreator creator = new DFACreator(positionsOfStartState, followPosTableEntries);
         creator.populateStateTransitionTable();
-
-        // Ausgabe beider Tabellen (expected, actual) im JSON-Format
-        printTables(stateTransitionTable, creator);
 
         assertEquals(stateTransitionTable, creator.getStateTransitionTable());
     }
