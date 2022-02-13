@@ -2,8 +2,6 @@ import c4_1_syntax_tree.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.text.ParseException;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestParser {
@@ -45,7 +43,7 @@ public class TestParser {
     }
 
     @Test
-    public void testEmpty() throws ParseException {
+    public void testEmpty() {
         parser.initialize("()#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new OperandNode(""), new OperandNode("#"));
@@ -54,7 +52,7 @@ public class TestParser {
     }
 
     @Test
-    public void testEmpty2() throws ParseException {
+    public void testEmpty2() {
         parser.initialize("#");
         Visitable actual = parser.start();
         Visitable expected = new OperandNode("#");
@@ -63,7 +61,7 @@ public class TestParser {
     }
 
     @Test
-    public void test1() throws ParseException {
+    public void test1() {
         parser.initialize("(a)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new OperandNode("a"), new OperandNode("#"));
@@ -72,7 +70,7 @@ public class TestParser {
     }
 
     @Test
-    public void test2() throws ParseException {
+    public void test2() {
         parser.initialize("(ab)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new BinOpNode("°", new OperandNode("a"), new OperandNode("b")), new OperandNode("#"));
@@ -81,7 +79,7 @@ public class TestParser {
     }
 
     @Test
-    public void test3() throws ParseException {
+    public void test3() {
         parser.initialize("(a|b)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new BinOpNode("|", new OperandNode("a"), new OperandNode("b")), new OperandNode("#"));
@@ -90,7 +88,7 @@ public class TestParser {
     }
 
     @Test
-    public void test4() throws ParseException {
+    public void test4() {
         parser.initialize("((a)?)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new UnaryOpNode("?", new OperandNode("a")), new OperandNode("#"));
@@ -99,7 +97,7 @@ public class TestParser {
     }
 
     @Test
-    public void test5() throws ParseException {
+    public void test5() {
         parser.initialize("(a*)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new UnaryOpNode("*", new OperandNode("a")), new OperandNode("#"));
@@ -108,7 +106,7 @@ public class TestParser {
     }
 
     @Test
-    public void test7() throws ParseException {
+    public void test7() {
         parser.initialize("(a|)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new BinOpNode("|", new OperandNode("a"), new OperandNode("")), new OperandNode("#"));
@@ -117,7 +115,7 @@ public class TestParser {
     }
 
     @Test
-    public void test8() throws ParseException {
+    public void test8() {
         parser.initialize("(|b)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new BinOpNode("|", new OperandNode(""), new OperandNode("b")), new OperandNode("#"));
@@ -126,7 +124,7 @@ public class TestParser {
     }
 
     @Test
-    public void test9() throws ParseException {
+    public void test9() {
         parser.initialize("(|)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new BinOpNode("|", new OperandNode(""), new OperandNode("")), new OperandNode("#"));
@@ -135,7 +133,7 @@ public class TestParser {
     }
 
     @Test
-    public void testMixed() throws ParseException {
+    public void testMixed() {
         parser.initialize("(a?b+|c*)#");
         Visitable actual = parser.start();
         Visitable expected = new BinOpNode("°", new BinOpNode("|", new BinOpNode("°", new UnaryOpNode("?", new OperandNode("a")) , new UnaryOpNode("+", new OperandNode("b"))), new UnaryOpNode("*", new OperandNode("c"))), new OperandNode("#"));
@@ -146,42 +144,42 @@ public class TestParser {
     @Test
     public void testFail1() {
         parser.initialize("a#");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 
     @Test
     public void testFail2() {
         parser.initialize("(a)");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 
     @Test
     public void testFail3() {
         parser.initialize("(*)#");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 
     @Test
     public void testFail4() {
         parser.initialize("(a)#b");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 
     @Test
     public void testFail5() {
         parser.initialize("");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 
     @Test
     public void testFail6() {
         parser.initialize("(as)k)#");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 
     @Test
     public void testFail7() {
         parser.initialize("((a )k)#");
-        assertThrows(ParseException.class, () -> parser.start());
+        assertThrows(RuntimeException.class, () -> parser.start());
     }
 }
