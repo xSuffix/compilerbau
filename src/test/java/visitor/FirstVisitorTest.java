@@ -17,8 +17,7 @@ public class FirstVisitorTest {
         // Input Syntax tree with nullable, firstpos and lastpos
         Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_01();
 
-        Parser parser = new Parser("((a|b)*cd*)#");
-        Visitable syntaxTreeByVisitor = parser.start();
+        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new BinOpNode("|", new OperandNode("a"), new OperandNode("b"))), new OperandNode("c")), new UnaryOpNode("*", new OperandNode("d"))), new OperandNode("#"));;
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 
         assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));
@@ -30,8 +29,7 @@ public class FirstVisitorTest {
         // Input Syntax tree with nullable, firstpos and lastpos
         Visitable syntaxTreeWithValues = StaticSyntaxTree.getTestTree_02();
 
-        Parser parser = new Parser("(d*(h|b)+w?)#");
-        Visitable syntaxTreeByVisitor = parser.start();
+        Visitable syntaxTreeByVisitor = new BinOpNode("°", new BinOpNode("°", new BinOpNode("°", new UnaryOpNode("*", new OperandNode("d")), new UnaryOpNode("+", new BinOpNode("|", new OperandNode("h"), new OperandNode("b")))), new UnaryOpNode("?", new OperandNode("w"))) , new OperandNode("#"));
         DepthFirstIterator.traverse(syntaxTreeByVisitor, new SyntaxTreeEvaluator());
 
         assertTrue(equals(syntaxTreeWithValues, syntaxTreeByVisitor));
