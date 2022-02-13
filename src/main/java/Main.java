@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import c4_1_syntax_tree.Parser;
 import c4_1_syntax_tree.SyntaxNode;
 import c4_1_syntax_tree.Visitable;
@@ -18,5 +19,10 @@ public class Main {
         dfaCreator.populateStateTransitionTable();
         Lexer lexer = new Lexer(dfaCreator.getStateTransitionTable());
         System.out.println(lexer.match("abc") ? "DFA accepts the word." : "DFA does not accept the word.");
+=======
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Ich mache nix");
+>>>>>>> e83c7ee1b4b563d362996f1902ab614b104df6ae
     }
 }

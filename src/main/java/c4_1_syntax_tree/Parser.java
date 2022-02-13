@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Author: Tobias Kohnle
+=======
+// Autor: Tobias Kohnle
+>>>>>>> e83c7ee1b4b563d362996f1902ab614b104df6ae
 package c4_1_syntax_tree;
 
 public class Parser {
