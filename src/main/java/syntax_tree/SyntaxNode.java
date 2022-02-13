@@ -1,4 +1,4 @@
-package c4_1_syntax_tree;
+package syntax_tree;
 
 import java.util.HashSet;
 import java.util.Set;

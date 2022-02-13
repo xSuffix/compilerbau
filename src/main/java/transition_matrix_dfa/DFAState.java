@@ -1,4 +1,4 @@
-package c4_3_transition_matrix_dfa;
+package transition_matrix_dfa;
 
 import java.util.Set;
 

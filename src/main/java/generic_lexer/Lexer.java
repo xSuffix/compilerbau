@@ -1,7 +1,7 @@
 // Author: Gabriel Nill
-package c4_4_generic_lexer;
+package generic_lexer;
 
-import c4_3_transition_matrix_dfa.DFAState;
+import transition_matrix_dfa.DFAState;
 
 import java.util.Map;
 

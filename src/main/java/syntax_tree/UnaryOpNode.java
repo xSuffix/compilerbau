@@ -1,4 +1,4 @@
-package c4_1_syntax_tree;
+package syntax_tree;
 
 public class UnaryOpNode extends SyntaxNode implements Visitable {
     public String operator;

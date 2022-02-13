@@ -1,8 +1,8 @@
 // Author: Gabriel Nill
 
-import c4_2_visitor.FollowposTableEntry;
-import c4_3_transition_matrix_dfa.DFACreator;
-import c4_3_transition_matrix_dfa.DFAState;
+import visitor.FollowposTableEntry;
+import transition_matrix_dfa.DFACreator;
+import transition_matrix_dfa.DFAState;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import static dfa_testing_toolbox.Utils.mockStateTransitionTable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TestDFACreator {
+public class DFACreatorTest {
 
     @Test
     @Order(1)

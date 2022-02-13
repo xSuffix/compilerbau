@@ -1,12 +1,12 @@
 // Author: Tobias Kohnle
 
-import c4_1_syntax_tree.*;
+import syntax_tree.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TestParser {
+public class ParserTest {
     Parser parser;
 
     private static boolean equals(Visitable v1, Visitable v2) {

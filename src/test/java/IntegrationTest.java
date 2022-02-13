@@ -1,14 +1,14 @@
 // Author: Gabriel Nill
 // Er hat darauf bestanden. Ein kleiner Bonus :)
 
-import c4_1_syntax_tree.Parser;
-import c4_1_syntax_tree.SyntaxNode;
-import c4_1_syntax_tree.Visitable;
-import c4_2_visitor.DepthFirstIterator;
-import c4_2_visitor.FollowPosTableGenerator;
-import c4_2_visitor.SyntaxTreeEvaluator;
-import c4_3_transition_matrix_dfa.DFACreator;
-import c4_4_generic_lexer.Lexer;
+import syntax_tree.Parser;
+import syntax_tree.SyntaxNode;
+import syntax_tree.Visitable;
+import visitor.DepthFirstIterator;
+import visitor.FollowPosTableGenerator;
+import visitor.SyntaxTreeEvaluator;
+import transition_matrix_dfa.DFACreator;
+import generic_lexer.Lexer;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TestIntegration {
+public class IntegrationTest {
     @Test
     @Order(1)
     public void integrationTest() {

@@ -1,7 +1,7 @@
 // Author: Gabriel Nill
-package c4_3_transition_matrix_dfa;
+package transition_matrix_dfa;
 
-import c4_2_visitor.FollowposTableEntry;
+import visitor.FollowposTableEntry;
 
 import java.util.*;
 import java.util.stream.Collectors;

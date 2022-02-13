@@ -1,7 +1,7 @@
 // Author: Jan Fröhlich
-package c4_2_visitor;
+package visitor;
 
-import c4_1_syntax_tree.*;
+import syntax_tree.*;
 
 public class DepthFirstIterator {
     public static void traverse(Visitable root, Visitor visitor) {

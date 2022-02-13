@@ -1,4 +1,4 @@
-package c4_2_visitor;
+package visitor;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,10 +1,7 @@
 // Author: Fabian Weller
 package visitor;
 
-import c4_1_syntax_tree.Visitable;
-import c4_2_visitor.DepthFirstIterator;
-import c4_2_visitor.FollowPosTableGenerator;
-import c4_2_visitor.FollowposTableEntry;
+import syntax_tree.Visitable;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

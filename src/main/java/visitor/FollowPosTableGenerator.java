@@ -1,7 +1,7 @@
 // Author: Fabian Weller
-package c4_2_visitor;
+package visitor;
 
-import c4_1_syntax_tree.*;
+import syntax_tree.*;
 
 import java.util.Set;
 import java.util.SortedMap;

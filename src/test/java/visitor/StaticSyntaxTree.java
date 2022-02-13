@@ -1,10 +1,10 @@
 // Author: Fabian Weller, Jan Fröhlich
 package visitor;
 
-import c4_1_syntax_tree.BinOpNode;
-import c4_1_syntax_tree.OperandNode;
-import c4_1_syntax_tree.UnaryOpNode;
-import c4_1_syntax_tree.Visitable;
+import syntax_tree.BinOpNode;
+import syntax_tree.OperandNode;
+import syntax_tree.UnaryOpNode;
+import syntax_tree.Visitable;
 
 import java.util.Set;
 
