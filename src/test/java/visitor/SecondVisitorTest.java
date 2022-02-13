@@ -1,4 +1,4 @@
-// Autor: Fabian Weller
+// Author: Fabian Weller
 package visitor;
 
 import c4_1_syntax_tree.Visitable;

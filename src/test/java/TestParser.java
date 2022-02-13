@@ -1,3 +1,4 @@
+// Author: Tobias Kohnle
 import c4_1_syntax_tree.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

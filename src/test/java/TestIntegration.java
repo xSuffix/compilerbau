@@ -1,3 +1,4 @@
+// Author: Gabriel Nill
 import c4_1_syntax_tree.Parser;
 import c4_1_syntax_tree.SyntaxNode;
 import c4_1_syntax_tree.Visitable;
